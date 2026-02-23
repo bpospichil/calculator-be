@@ -111,7 +111,7 @@ go tool cover -html=coverage.out -o coverage.html
 ### Build
 
 ```bash
-docker build -t calculator-be
+docker build -t calculator-be .
 ```
 
 ### Run
