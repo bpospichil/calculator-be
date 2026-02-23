@@ -1,0 +1,164 @@
+openapi: "3.0.3"
+
+info:
+  title: Calculator REST API
+  description: >
+    A lightweight calculator microservice that performs basic arithmetic
+    operations (add, subtract, multiply, divide) via a single JSON endpoint.
+  version: "1.0.0"
+  contact:
+    name: API Support
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /calculate:
+    post:
+      summary: Perform a calculation
+      description: >
+        Accepts two numeric operands and an arithmetic operation, returning
+        the computed result as JSON.
+      operationId: calculate
+      tags:
+        - Calculator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CalculateRequest"
+            examples:
+              addition:
+                summary: Add two numbers
+                value:
+                  a: 10
+                  b: 3
+                  operation: add
+              subtraction:
+                summary: Subtract two numbers
+                value:
+                  a: 10
+                  b: 3
+                  operation: subtract
+              multiplication:
+                summary: Multiply two numbers
+                value:
+                  a: 4
+                  b: 5
+                  operation: multiply
+              division:
+                summary: Divide two numbers
+                value:
+                  a: 20
+                  b: 4
+                  operation: divide
+      responses:
+        "200":
+          description: Calculation completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CalculateResponse"
+              example:
+                result: 13
+        "400":
+          description: >
+            Bad request – division by zero, unknown operation, or malformed JSON
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                divisionByZero:
+                  summary: Division by zero
+                  value:
+                    error: "division by zero"
+                unknownOperation:
+                  summary: Unknown operation
+                  value:
+                    error: 'unknown operation: "power"'
+                invalidJSON:
+                  summary: Malformed JSON body
+                  value:
+                    error: "invalid JSON payload: unexpected end of JSON input"
+        "405":
+          description: Method not allowed (only POST is accepted)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "only POST is allowed"
+
+  /health:
+    get:
+      summary: Health check
+      description: Returns the current health status of the service.
+      operationId: healthCheck
+      tags:
+        - Health
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+              example:
+                status: ok
+
+components:
+  schemas:
+    CalculateRequest:
+      type: object
+      required:
+        - a
+        - b
+        - operation
+      properties:
+        a:
+          type: number
+          format: double
+          description: First operand
+          example: 10
+        b:
+          type: number
+          format: double
+          description: Second operand
+          example: 3
+        operation:
+          type: string
+          enum:
+            - add
+            - subtract
+            - multiply
+            - divide
+          description: The arithmetic operation to perform
+          example: add
+
+    CalculateResponse:
+      type: object
+      properties:
+        result:
+          type: number
+          format: double
+          description: The result of the calculation
+          example: 13
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message
+          example: "division by zero"
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Service health status
+          example: ok

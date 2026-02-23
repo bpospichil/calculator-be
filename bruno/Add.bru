@@ -1,0 +1,37 @@
+meta {
+  name: Add
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/calculate
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "a": 10,
+    "b": 3,
+    "operation": "add"
+  }
+}
+
+vars:pre-request {
+  base_url: 127.0.0.1:8080
+}
+
+tests {
+  test("should return 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("result should be 13", function() {
+    expect(res.body.result).to.equal(13);
+  });
+}

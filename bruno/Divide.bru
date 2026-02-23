@@ -1,0 +1,32 @@
+meta {
+  name: Divide
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{base_url}}/calculate
+  body: json
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "a": 20,
+    "b": 4,
+    "operation": "divide"
+  }
+}
+
+tests {
+  test("should return 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("result should be 5", function() {
+    expect(res.body.result).to.equal(5);
+  });
+}
