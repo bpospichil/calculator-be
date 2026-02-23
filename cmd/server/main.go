@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/bpospichil/calculator-be/internal/handler"
 	"github.com/bpospichil/calculator-be/pkg/calculator"
@@ -31,7 +32,16 @@ func main() {
 
 	addr := ":" + port
 	log.Printf("calculator-api listening on %s", addr)
-	if err := http.ListenAndServe(addr, mux); err != nil {
+
+	srv := &http.Server{
+		Addr:         addr,
+		Handler:      mux,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  120 * time.Second,
+	}
+
+	if err := srv.ListenAndServe(); err != nil {
 		log.Fatalf("server error: %v", err)
 	}
 }
