@@ -5,7 +5,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/calculator-api/pkg/calculator"
+	"github.com/bpospichil/calculator-be/pkg/calculator"
 )
 
 // ---------------------------------------------------------------------------

@@ -7,8 +7,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/calculator-api/internal/handler"
-	"github.com/calculator-api/pkg/calculator"
+	"github.com/bpospichil/calculator-be/internal/handler"
+	"github.com/bpospichil/calculator-be/pkg/calculator"
 )
 
 func newHandler() *handler.CalculatorHandler {

@@ -6,7 +6,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/calculator-api/pkg/calculator"
+	"github.com/bpospichil/calculator-be/pkg/calculator"
 )
 
 // CalculatorHandler handles HTTP requests for calculations.
