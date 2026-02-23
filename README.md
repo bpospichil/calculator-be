@@ -111,13 +111,13 @@ go tool cover -html=coverage.out -o coverage.html
 ### Build
 
 ```bash
-docker build -t calculator-api .
+docker build -t calculator-be
 ```
 
 ### Run
 
 ```bash
-docker run -p 8080:8080 calculator-api
+docker run -p 8080:8080 calculator-be
 ```
 
 The resulting image uses a `scratch` base with a statically-linked binary, keeping the final image well under 20 MB.
