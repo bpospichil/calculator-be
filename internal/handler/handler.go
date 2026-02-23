@@ -32,9 +32,13 @@ type calculateResponse struct {
 // Calculate handles POST /calculate requests.
 func (h *CalculatorHandler) Calculate(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
+		w.Header().Set("Allow", http.MethodPost)
 		writeError(w, http.StatusMethodNotAllowed, "only POST is allowed")
 		return
 	}
+
+	// Limit request body to 1MB to prevent OOM attacks
+	r.Body = http.MaxBytesReader(w, r.Body, 1048576)
 
 	var req calculator.Request
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
