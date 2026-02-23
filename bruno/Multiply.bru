@@ -1,0 +1,32 @@
+meta {
+  name: Multiply
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/calculate
+  body: json
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "a": 4,
+    "b": 5,
+    "operation": "multiply"
+  }
+}
+
+tests {
+  test("should return 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("result should be 20", function() {
+    expect(res.body.result).to.equal(20);
+  });
+}

@@ -1,0 +1,32 @@
+meta {
+  name: Unknown Operation
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{base_url}}/calculate
+  body: json
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "a": 10,
+    "b": 5,
+    "operation": "power"
+  }
+}
+
+tests {
+  test("should return 400", function() {
+    expect(res.status).to.equal(400);
+  });
+
+  test("error should mention unknown operation", function() {
+    expect(res.body.error).to.contain("unknown operation");
+  });
+}
